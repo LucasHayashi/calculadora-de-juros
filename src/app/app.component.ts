@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'calculadora-de-juros';
+  routerLinkActiveOptions = {
+    exact: true
+  }
 }

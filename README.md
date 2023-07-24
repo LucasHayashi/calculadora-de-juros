@@ -1,27 +1,30 @@
-# CalculadoraDeJuros
+# Calculadora de Juros Simples e Compostos em Angular 15 com Bootstrap
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+## Descrição
+Este projeto é uma aplicação em Angular 15 com Bootstrap que visa oferecer uma calculadora de juros simples e compostos. Através dessa calculadora, os usuários podem calcular os juros acumulados ao longo do tempo, gerando um gráfico com o ApexChart para visualização dos juros e exibindo também uma tabela com o histórico de montantes ao longo das iterações.
 
-## Development server
+## Status do Projeto
+⚠️ Atenção: Este projeto ainda está em desenvolvimento! ⚠️
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Este projeto ainda está em fase de desenvolvimento e pode conter algumas funcionalidades incompletas ou instáveis. Estou trabalhando para melhorar e adicionar novos recursos.
 
-## Code scaffolding
+## Funcionalidades
+- Cálculo de Juros Simples e Compostos: O usuário pode inserir um valor inicial, taxa de juros e período (em meses ou anos) para calcular os juros acumulados com o método desejado.
+- Gráfico de Juros Acumulados: O resultado do cálculo é exibido em um gráfico com o ApexChart, permitindo uma visualização mais intuitiva do crescimento dos juros ao longo do tempo.
+- Tabela de Histórico de Montantes: Além do gráfico, a aplicação também exibe uma tabela com o histórico de montantes, mostrando os valores acumulados em cada período de acordo com o cálculo escolhido.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tecnologias Utilizadas
+- Angular 15: Framework de desenvolvimento web.
+- Bootstrap: Framework de CSS para criar interfaces responsivas e estilizadas.
+- ApexChart: Biblioteca para criação de gráficos interativos e atraentes.
 
-## Build
+## Como Usar
+1. Ao acessar a aplicação, você será apresentado à interface da calculadora.
+2. Preencha os campos de "Valor Inicial", "Taxa de Juros" e "Período" com os valores desejados.
+3. Selecione o tipo de cálculo desejado (simples ou composto).
+4. Clique no botão "Calcular" para visualizar os resultados.
+O gráfico com os juros acumulados será exibido abaixo do formulário de cálculo.
+Role a página para visualizar a tabela com o histórico de montantes.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Contribuição
+Se você quiser contribuir com este projeto, sinta-se à vontade para abrir uma issue ou enviar um pull request. Toda contribuição é bem-vinda!
