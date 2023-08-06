@@ -77,8 +77,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let juros of dataJuros; index as i">
-                                    <td>{{i}}</td>
+                                <tr *ngFor="let juros of dataJuros; index as mes">
+                                    <td>{{mes}}</td>
                                     <td>{{juros.montanteSemJuros | currency}}</td>
                                     <td>{{juros.totalDeJurosNoMes | currency}}</td>
                                     <td>{{juros.montanteComJuros | currency}}</td>
