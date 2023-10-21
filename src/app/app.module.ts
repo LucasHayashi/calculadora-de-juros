@@ -11,7 +11,7 @@ import { PublicModule } from './public/public.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +27,7 @@ import { PublicModule } from './public/public.module';
     {
       provide: DEFAULT_CURRENCY_CODE,
       useValue: 'BRL'
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

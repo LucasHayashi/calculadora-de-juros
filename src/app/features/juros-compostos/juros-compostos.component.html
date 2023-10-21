@@ -8,7 +8,14 @@
                 <label for="capital-inicial" class="form-label">Capital inicial</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">R$</span>
-                    <input id="capital-inicial" type="number" class="form-control" formControlName="capitalInicial" />
+                    <input currencyMask id="capital-inicial" type="text" class="form-control" formControlName="capitalInicial" />
+                </div>
+            </div>
+            <div class="mb-2">
+                <label for="aporte-mensal" class="form-label">Aporte mensal</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">R$</span>
+                    <input currencyMask id="aporte-mensal" type="text" class="form-control" formControlName="aporteMensal" />
                 </div>
             </div>
             <div class="mb-2">
@@ -72,6 +79,7 @@
                                 <tr>
                                     <th scope="col">Mês</th>
                                     <th scope="col">Valor Investido</th>
+                                    <th scope="col">Aporte Mensal</th>
                                     <th scope="col">Juros ao Mês</th>
                                     <th scope="col">Montante Total</th>
                                 </tr>
@@ -80,6 +88,7 @@
                                 <tr *ngFor="let juros of dataJuros; index as mes">
                                     <td>{{mes}}</td>
                                     <td>{{juros.montanteSemJuros | currency}}</td>
+                                    <td>{{juros.aporteMensal | currency}}</td>
                                     <td>{{juros.totalDeJurosNoMes | currency}}</td>
                                     <td>{{juros.montanteComJuros | currency}}</td>
                                 </tr>

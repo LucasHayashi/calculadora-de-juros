@@ -1,65 +1,74 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms'
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexTitleSubtitle, ApexXAxis } from 'ng-apexcharts'
+import { FormBuilder, Validators } from '@angular/forms';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexTitleSubtitle,
+  ApexXAxis,
+} from 'ng-apexcharts';
 
 @Component({
   selector: 'app-juros-simples',
   templateUrl: './juros-simples.component.html',
-  styleUrls: ['./juros-simples.component.scss']
+  styleUrls: ['./juros-simples.component.scss'],
 })
 export class JurosSimplesComponent {
-
   series: ApexAxisChartSeries;
   chart: ApexChart;
-  xaxis: ApexXAxis
+  xaxis: ApexXAxis;
   title: ApexTitleSubtitle;
   dataLabels: ApexDataLabels;
   dataJuros: Array<any> = [];
 
   public jurosCompostosForm = this.fb.group({
-    capitalInicial: ['10000', Validators.required],
-    tempo: ['12', Validators.required],
+    capitalInicial: [0, Validators.required],
+    tempo: [12, Validators.required],
     tipoTempo: ['meses', Validators.required],
-    taxaDeJuros: ['10', Validators.required]
+    taxaDeJuros: [10, Validators.required],
   });
 
   private initializeChartOptions() {
     this.series = [];
 
     this.chart = {
-      type: 'bar'
+      type: 'bar',
     };
 
     this.title = {
-      text: 'Juros simples'
+      text: 'Juros simples',
     };
 
     this.dataLabels = {
-      enabled: false
-    }
+      enabled: false,
+    };
 
     this.xaxis = {
       labels: {
-        show: false
-      }
-    }
+        show: false,
+      },
+    };
   }
 
   public montanteFinal: any = 0;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.initializeChartOptions();
   }
 
   getTaxaMensal(taxaDeJuros: number): number {
-    let taxaEquivalente = taxaDeJuros/12;
+    let taxaEquivalente = taxaDeJuros / 12;
     taxaEquivalente = (taxaEquivalente * 100) / 100;
     return taxaEquivalente;
   }
 
-  calcularTotalDeJuros(capitalInicial: number, taxaDeJuros: number, tempo: number): number {
+  calcularTotalDeJuros(
+    capitalInicial: number,
+    taxaDeJuros: number,
+    tempo: number
+  ): number {
     let totalDeJuros = capitalInicial * taxaDeJuros * tempo;
     return Number(totalDeJuros.toFixed(2));
   }
@@ -75,15 +84,19 @@ export class JurosSimplesComponent {
     const tipoTempo = jurosForm.tipoTempo;
     let tempo = Number(jurosForm.tempo);
 
-    if (tipoTempo == "anos") {
+    if (tipoTempo == 'anos') {
       tempo = tempo * 12;
     }
 
     if (this.dataJuros.length) {
       this.dataJuros = [];
     }
-    let taxaEquivalente = this.getTaxaMensal(taxaDeJuros)
-    let totalJuros = this.calcularTotalDeJuros(capitalInicial, taxaEquivalente, tempo);
+    let taxaEquivalente = this.getTaxaMensal(taxaDeJuros);
+    let totalJuros = this.calcularTotalDeJuros(
+      capitalInicial,
+      taxaEquivalente,
+      tempo
+    );
     this.montanteFinal = this.calcularMontante(capitalInicial, totalJuros);
     let montanteAtual = capitalInicial;
     let jurosMensal = totalJuros / tempo;
@@ -94,7 +107,7 @@ export class JurosSimplesComponent {
       let ultimoMontante: any = montanteAtual;
 
       if (i === 0) {
-        montanteComJuros = capitalInicial
+        montanteComJuros = capitalInicial;
       } else {
         montanteAtual += jurosMensal;
         montanteComJuros = montanteAtual.toFixed(2);
@@ -105,8 +118,8 @@ export class JurosSimplesComponent {
       this.dataJuros.push({
         montanteComJuros,
         montanteSemJuros: capitalInicial,
-        totalDeJurosNoMes
-      })
+        totalDeJurosNoMes,
+      });
     }
 
     if (this.series.length) {
@@ -116,10 +129,12 @@ export class JurosSimplesComponent {
     this.series.push(
       {
         name: 'Montante sem Juros',
-        data: this.dataJuros.map(juros => juros.montanteSemJuros)
-      }, {
-      name: 'Montante com Juros',
-      data: this.dataJuros.map(juros => juros.montanteComJuros)
-    });
+        data: this.dataJuros.map((juros) => juros.montanteSemJuros),
+      },
+      {
+        name: 'Montante com Juros',
+        data: this.dataJuros.map((juros) => juros.montanteComJuros),
+      }
+    );
   }
 }

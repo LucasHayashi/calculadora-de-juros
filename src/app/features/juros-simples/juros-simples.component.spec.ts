@@ -6,66 +6,57 @@ import { ReactiveFormsModule } from '@angular/forms';
 describe('JurosSimplesComponent', () => {
   let component: JurosSimplesComponent;
   let fixture: ComponentFixture<JurosSimplesComponent>;
+  let formControls: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [JurosSimplesComponent],
-      imports: [
-        ReactiveFormsModule
-      ]
-    })
-      .compileComponents();
+      imports: [ReactiveFormsModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(JurosSimplesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    formControls = component.jurosCompostosForm.controls;
   });
 
-  it('should calculate simple interest by year 1', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("10000");
-    formControls.taxaDeJuros.setValue("3.875");
-    formControls.tempo.setValue("5");
-    formControls.tipoTempo.setValue("anos");
+  function testSimpleInterest(
+    capitalInicial: number,
+    taxaDeJuros: number,
+    tempo: number,
+    tipoTempo: string,
+    expectedMontanteFinal: number,
+    aporteMensal?: number
+  ) {
+    formControls.capitalInicial.setValue(capitalInicial);
+    formControls.taxaDeJuros.setValue(taxaDeJuros);
+    formControls.tempo.setValue(tempo);
+    formControls.tipoTempo.setValue(tipoTempo);
+
+    if (aporteMensal) {
+      formControls.aporteMensal.setValue(aporteMensal);
+    }
 
     component.calcularJurosSimples();
 
-    expect(component.montanteFinal).toBe(11937.50);
-  });
+    expect(Number(component.montanteFinal)).toBe(expectedMontanteFinal);
+  }
 
-  it('should calculate simple interest by month 1', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("10000");
-    formControls.taxaDeJuros.setValue("3.875");
-    formControls.tempo.setValue("60");
-    formControls.tipoTempo.setValue("meses");
+  describe('Simple Interest Calculation', () => {
+    it('should calculate simple interest by year 1', () => {
+      testSimpleInterest(10000, 3.875, 5, 'anos', 11937.5);
+    });
 
-    component.calcularJurosSimples();
+    it('should calculate simple interest by month 1', () => {
+      testSimpleInterest(10000, 3.875, 60, 'meses', 11937.5);
+    });
 
-    expect(component.montanteFinal).toBe(11937.50);
-  });
+    it('should calculate simple interest by year 2', () => {
+      testSimpleInterest(890200, 13.25, 10, 'anos', 2069715);
+    });
 
-  it('should calculate simple interest by year 2', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("890200");
-    formControls.taxaDeJuros.setValue("13.25");
-    formControls.tempo.setValue("10");
-    formControls.tipoTempo.setValue("anos");
-
-    component.calcularJurosSimples();
-
-    expect(component.montanteFinal).toBe(2069715.00);
-  });
-
-  it('should calculate simple interest by month 2', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("890200");
-    formControls.taxaDeJuros.setValue("13.25");
-    formControls.tempo.setValue("120");
-    formControls.tipoTempo.setValue("meses");
-
-    component.calcularJurosSimples();
-
-    expect(component.montanteFinal).toBe(2069715.00);
+    it('should calculate simple interest by month 2', () => {
+      testSimpleInterest(890200, 13.25, 120, 'meses', 2069715);
+    });
   });
 });

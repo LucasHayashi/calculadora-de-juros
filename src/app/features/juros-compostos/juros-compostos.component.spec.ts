@@ -3,74 +3,83 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { JurosCompostosComponent } from './juros-compostos.component';
 
-
 describe('JurosCompostosComponent', () => {
   let component: JurosCompostosComponent;
   let fixture: ComponentFixture<JurosCompostosComponent>;
+  let formControls: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [JurosCompostosComponent],
-      imports: [
-        ReactiveFormsModule
-      ]
-    })
-      .compileComponents();
+      imports: [ReactiveFormsModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(JurosCompostosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    formControls = component.jurosCompostosForm.controls;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should calculate compound interest by year 1', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("5000");
-    formControls.taxaDeJuros.setValue("13");
-    formControls.tempo.setValue("2");
-    formControls.tipoTempo.setValue("anos");
+  function testCompoundInterest(
+    capitalInicial: number,
+    taxaDeJuros: number,
+    tempo: number,
+    tipoTempo: string,
+    expectedMontanteFinal: number,
+    aporteMensal?: number
+  ) {
+    formControls.capitalInicial.setValue(capitalInicial);
+    formControls.taxaDeJuros.setValue(taxaDeJuros);
+    formControls.tempo.setValue(tempo);
+    formControls.tipoTempo.setValue(tipoTempo);
+
+    if (aporteMensal) {
+      formControls.aporteMensal.setValue(aporteMensal);
+    }
 
     component.calcularJurosCompostos();
 
-    expect(component.montanteFinal).toBe("6384.50");
-  });
+    expect(Number(component.montanteFinal)).toBe(expectedMontanteFinal);
+  }
 
-  it('should calculate compound interest by month 1', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("5000");
-    formControls.taxaDeJuros.setValue("13");
-    formControls.tempo.setValue("24");
-    formControls.tipoTempo.setValue("meses");
+  describe('Compound Interest Calculation', () => {
+    it('should calculate compound interest by year 1', () => {
+      testCompoundInterest(5000, 13, 2, 'anos', 6384.5);
+    });
 
-    component.calcularJurosCompostos();
+    it('should calculate compound interest by month 1', () => {
+      testCompoundInterest(5000, 13, 24, 'meses', 6384.5);
+    });
 
-    expect(component.montanteFinal).toBe("6384.50");
-  });
+    it('should calculate compound interest by year 2', () => {
+      testCompoundInterest(299384, 8.5, 10, 'anos', 676902.27);
+    });
 
-  it('should calculate compound interest by year 2', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("299384.00");
-    formControls.taxaDeJuros.setValue("8.50");
-    formControls.tempo.setValue("10");
-    formControls.tipoTempo.setValue("anos");
+    it('should calculate compound interest by month 2', () => {
+      testCompoundInterest(299384, 8.5, 120, 'meses', 676902.27);
+    });
 
-    component.calcularJurosCompostos();
+    describe('with monthly contributions', () => {
+      it('should calculate compound interest per month with monthly contributions 1', () => {
+        testCompoundInterest(10000, 10, 12, 'meses', 17521.08, 520);
+      });
 
-    expect(component.montanteFinal).toBe("676902.27");
-  });
+      it('should calculate compound interest per month with monthly contributions 2', () => {
+        testCompoundInterest(50000, 9, 6, 'meses', 70529, 3000);
+      });
 
-  it('should calculate compound interest by month 2', () => {
-    let formControls = component.jurosCompostosForm.controls;
-    formControls.capitalInicial.setValue("299384.00");
-    formControls.taxaDeJuros.setValue("8.50");
-    formControls.tempo.setValue("120");
-    formControls.tipoTempo.setValue("meses");
+      it('should calculate compound interest per month with monthly contributions 3', () => {
+        testCompoundInterest(200000, 8, 180, 'meses', 1984859.03, 4000);
+      });
 
-    component.calcularJurosCompostos();
-
-    expect(component.montanteFinal).toBe("676902.27");
+      it('should calculate compound interest per month with monthly contributions 4', () => {
+        testCompoundInterest(200000, 8, 15, 'anos', 1984859.03, 4000);
+      });
+    });
   });
 });
