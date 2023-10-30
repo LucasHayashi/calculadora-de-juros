@@ -8,14 +8,16 @@
                 <label for="capital-inicial" class="form-label">Capital inicial</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">R$</span>
-                    <input currencyMask id="capital-inicial" type="text" class="form-control" formControlName="capitalInicial" />
+                    <input currencyMask id="capital-inicial" type="text" class="form-control"
+                        formControlName="capitalInicial" />
                 </div>
             </div>
             <div class="mb-2">
                 <label for="aporte-mensal" class="form-label">Aporte mensal</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">R$</span>
-                    <input currencyMask id="aporte-mensal" type="text" class="form-control" formControlName="aporteMensal" />
+                    <input currencyMask id="aporte-mensal" type="text" class="form-control"
+                        formControlName="aporteMensal" />
                 </div>
             </div>
             <div class="mb-2">
@@ -52,8 +54,9 @@
         <span class="display-3">{{ montanteFinal | currency }}</span>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="grafico-tab" data-bs-toggle="tab" data-bs-target="#grafico-tab-pane"
-                    type="button" role="tab" aria-controls="grafico-tab-pane" aria-selected="true">Grafico</button>
+                <button #tabElement class="nav-link active" id="grafico-tab" data-bs-toggle="tab"
+                    data-bs-target="#grafico-tab-pane" type="button" role="tab" aria-controls="grafico-tab-pane"
+                    aria-selected="true">Grafico</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="tabela-tab" data-bs-toggle="tab" data-bs-target="#tabela-tab-pane"
@@ -64,8 +67,8 @@
             <div class="tab-pane fade show active" id="grafico-tab-pane" role="tabpanel" aria-labelledby="grafico-tab"
                 tabindex="0">
                 <ng-container *ngIf="montanteFinal; else semDados">
-                    <apx-chart [series]="series" [chart]="chart" [title]="title" [dataLabels]="dataLabels"
-                        [xaxis]="xaxis"></apx-chart>
+                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [title]="chartOptions.title"
+                        [dataLabels]="chartOptions.dataLabels" [xaxis]="chartOptions.xaxis"></apx-chart>
                 </ng-container>
                 <ng-template #semDados>
                     <div class="alert alert-warning">Sem dados para exibir</div>
