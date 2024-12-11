@@ -1,11 +1,14 @@
 <h1 class="display-6 mt-2">Calculadora de Juros Compostos</h1>
+<div class="alert alert-primary">
+    Taxa de juros (anual) preenchida com a Selic anualizada base 252 de {{dataSelic}}
+</div>
 <hr class="border border-primary border-1 opacity-50" />
 
 <div class="row">
     <div class="col-md-6">
         <form [formGroup]="jurosCompostosForm" (ngSubmit)="calcularJurosCompostos()">
             <div class="mb-2">
-                <label for="capital-inicial" class="form-label">Capital inicial</label>
+                <label for="capital-inicial" class="form-label" #capitalInicial>Capital inicial</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">R$</span>
                     <input currencyMask id="capital-inicial" type="text" class="form-control"

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { JurosCompostosComponent } from './juros-compostos.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('JurosCompostosComponent', () => {
   let component: JurosCompostosComponent;
@@ -11,7 +12,9 @@ describe('JurosCompostosComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [JurosCompostosComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,
+        HttpClientTestingModule
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(JurosCompostosComponent);

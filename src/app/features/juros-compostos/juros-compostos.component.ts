@@ -1,31 +1,44 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ChartInterface } from '../interface/chart-interface';
+import { DadosService } from 'src/app/services/dados.service';
 
 @Component({
   selector: 'app-juros-compostos',
   templateUrl: './juros-compostos.component.html',
   styleUrls: ['./juros-compostos.component.scss'],
 })
-export class JurosCompostosComponent implements OnInit {
+export class JurosCompostosComponent implements OnInit, AfterViewInit {
   @ViewChild('tabElement', { static: true }) tabElement: ElementRef;
+  @ViewChild('capitalInicial', {static: true}) inputCapitalInicialElement: ElementRef;
 
   montanteFinal: any = 0;
   chartOptions: ChartInterface;
   dataJuros: Array<any> = [];
+  dataSelic: any;
   jurosCompostosForm = this.fb.group({
     capitalInicial: [0, Validators.required],
     aporteMensal: [0],
     tempo: [12, Validators.required],
     tipoTempo: ['meses', Validators.required],
-    taxaDeJuros: [13.25, Validators.required],
+    taxaDeJuros: [0, Validators.required],
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private _dadosService: DadosService
+  ) { }
 
   ngOnInit(): void {
     this.initializeChartOptions();
     this.autoRefreshChart();
+    this._dadosService.getTaxaSelicAnualizada().subscribe((res) => {
+      this.jurosCompostosForm.patchValue({taxaDeJuros: Number(res.valor)});
+      this.dataSelic = res.data;
+    })
+  }
+
+  ngAfterViewInit(): void {
+    this.inputCapitalInicialElement.nativeElement.focus();
   }
 
   initializeChartOptions() {

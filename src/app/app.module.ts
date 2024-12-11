@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeaturesModule } from './features/features.module';
 import { PublicModule } from './public/public.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { PublicModule } from './public/public.module';
     BrowserModule,
     AppRoutingModule,
     FeaturesModule,
-    PublicModule
+    PublicModule,
+    HttpClientModule
   ],
   providers: [
     {
